@@ -34,17 +34,21 @@ button {
     font-size: 1.5em;
     border: none;
     background-color: #F2EAE4;
-    box-shadow: 5px 5px 10px -3px #00000040, -5px -5px 15px 3px #00ffc11f;
+    box-shadow: 5px 5px 10px -3px #00000040, -5px -5px 15px 3px #0460c91f;
 }
 
 /*verificar funcionamiento efecto al presionar boton*/
-/* button:activate {
+ button:active {
     background-color: #AFA3A3;
 }
 
 button:focus{
     outline: none;
-} */
+} 
+
+.col-2{
+    grid-column: span 2;
+}
 
 .display {
     grid-column: 1 / -1;
@@ -58,4 +62,12 @@ button:focus{
     text-align: right;
     justify-content: space-between;
     word-break: break-all;
+}
+
+#valor-actual{
+    font-size: 1.5em;
+}
+
+#valor-anterior{
+    font-size: 2em;
 }
