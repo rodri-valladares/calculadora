@@ -2,6 +2,7 @@ const displayValorAnterior = document.getElementById('valor-anterior');
 const displayValorActual = document.getElementById('valor-actual');
 const botonesNumeros = document.querySelectorAll('.numero');
 const botonesOperadores = document.querySelectorAll('.operador');
+const botonSonido = document.getElementById('boton-sonido');
 
 class Calculadora {
     sumar(num1, num2) {
@@ -85,10 +86,16 @@ class Display {
 const display = new Display(displayValorAnterior, displayValorActual);
 
 botonesNumeros.forEach(boton => {
-    boton.addEventListener('click', () => display.agregarNumero(boton.innerHTML));
+    boton.addEventListener('click', () => {
+        display.agregarNumero(boton.innerHTML);
+        botonSonido.play();
+    });
 });
 
 botonesOperadores.forEach(boton => {
-    boton.addEventListener('click', () => display.computar(boton.value))
+    boton.addEventListener('click', () => {
+        display.computar(boton.value);
+        botonSonido.play();
+    })
 });
 
