@@ -43,6 +43,7 @@ class Display {
     borrar() {
         this.valorActual = this.valorActual.toString().slice(0,-1);
         this.imprimirValores();
+        botonSonido.play();
     }
 
     borrarTodo(){
@@ -50,6 +51,7 @@ class Display {
         this.valorAnterior = '';
         this.tipoOperacion = undefined;
         this.imprimirValores();
+        botonSonido.play();
     }
 
     computar(tipo){
