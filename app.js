@@ -33,7 +33,7 @@ class Display {
         this.tipoOperacion = undefined;
         this.signos = {
             sumar: '+',
-            dividir: '%',
+            dividir: '/',
             multiplicar: 'x',
             restar: '-', 
         }
@@ -52,6 +52,7 @@ class Display {
     }
 
     computar(tipo){
+        
         this.tipoOperacion !== 'igual' && this.calcular();
         this.tipoOperacion = tipo;
         this.valorAnterior = this.valorActual || this.valorAnterior;
