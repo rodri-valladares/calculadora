@@ -54,6 +54,7 @@ class Display {
         botonSonido.play();
     }
 
+    /*Revisar*/
     computar(tipo){
         
         this.tipoOperacion !== 'igual' && this.calcular();
@@ -64,6 +65,7 @@ class Display {
 
     }
 
+    /* revisar */
     agregarNumero(numero) {
         if(numero === '.' && this.valorActual.includes('.')) return
         this.valorActual = this.valorActual.toString() + numero.toString();
