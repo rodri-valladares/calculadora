@@ -1,105 +1,106 @@
-const displayValorAnterior = document.getElementById('valor-anterior');
-const displayValorActual = document.getElementById('valor-actual');
-const botonesNumeros = document.querySelectorAll('.numero');
-const botonesOperadores = document.querySelectorAll('.operador');
-const botonSonido = document.getElementById('boton-sonido');
+const displayValorAnterior = document.getElementById("valor-anterior");
+const displayValorActual = document.getElementById("valor-actual");
+const botonesNumeros = document.querySelectorAll(".numero");
+const botonesOperadores = document.querySelectorAll(".operador");
+const botonSonido = document.getElementById("boton-sonido");
 
 class Calculadora {
-    sumar(num1, num2) {
-        return num1 + num2;
-    }
+  sumar(num1, num2) {
+    return num1 + num2;
+  }
 
-    restar(num1, num2) {
-        return num1 - num2;
-    }
+  restar(num1, num2) {
+    return num1 - num2;
+  }
 
-    dividir(num1, num2) {
-        return num1 / num2;
-    }
+  dividir(num1, num2) {
+    return num1 / num2;
+  }
 
-    multiplicar(num1, num2) {
-        return num1 * num2;
-    }
-
+  multiplicar(num1, num2) {
+    return num1 * num2;
+  }
 }
 
-//Clase que permite interactuar entre los botones y el display 
+//Clase que permite interactuar entre los botones y el display
 class Display {
-    constructor(displayValorAnterior, displayValorActual) {
-        this.displayValorActual = displayValorActual;
-        this.displayValorAnterior = displayValorAnterior;
-        this.calculador = new Calculadora();
-        this.valorActual = '';
-        this.valorAnterior = '';
-        this.tipoOperacion = undefined;
-        this.signos = {
-            sumar: '+',
-            dividir: '/',
-            multiplicar: 'x',
-            restar: '-', 
-        }
-    }
+  constructor(displayValorAnterior, displayValorActual) {
+    this.displayValorActual = displayValorActual;
+    this.displayValorAnterior = displayValorAnterior;
+    this.calculador = new Calculadora();
+    this.valorActual = "";
+    this.valorAnterior = "";
+    this.tipoOperacion = undefined;
+    this.signos = {
+      sumar: "+",
+      dividir: "/",
+      multiplicar: "x",
+      restar: "-",
+    };
+  }
 
-    borrar() {
-        this.valorActual = this.valorActual.toString().slice(0,-1);
-        this.imprimirValores();
-        botonSonido.play();
-    }
+  borrar() {
+    this.valorActual = this.valorActual.toString().slice(0, -1);
+    this.imprimirValores();
+    botonSonido.play();
+  }
 
-    borrarTodo(){
-        this.valorActual = '';
-        this.valorAnterior = '';
-        this.tipoOperacion = undefined;
-        this.imprimirValores();
-        botonSonido.play();
-    }
+  borrarTodo() {
+    this.valorActual = "";
+    this.valorAnterior = "";
+    this.tipoOperacion = undefined;
+    this.imprimirValores();
+    botonSonido.play();
+  }
 
-    /*Revisar*/
-    computar(tipo){
-        
-        this.tipoOperacion !== 'igual' && this.calcular();
-        this.tipoOperacion = tipo;
-        this.valorAnterior = this.valorActual || this.valorAnterior;
-        this.valorActual = '';
-        this.imprimirValores();
+  /*Revisar*/
+  computar(tipo) {
+    this.tipoOperacion !== "igual" && this.calcular();
+    this.tipoOperacion = tipo;
+    this.valorAnterior = this.valorActual || this.valorAnterior;
+    this.valorActual = "";
+    this.imprimirValores();
+  }
 
-    }
+  /* revisar */
+  agregarNumero(numero) {
+    if (numero === "." && this.valorActual.includes(".")) return;
+    this.valorActual = this.valorActual.toString() + numero.toString();
+    this.imprimirValores();
+  }
 
-    /* revisar */
-    agregarNumero(numero) {
-        if(numero === '.' && this.valorActual.includes('.')) return
-        this.valorActual = this.valorActual.toString() + numero.toString();
-        this.imprimirValores();
-    }
+  imprimirValores() {
+    this.displayValorActual.textContent = this.valorActual;
+    this.displayValorAnterior.textContent = `${this.valorAnterior} ${
+      this.signos[this.tipoOperacion] || ""
+    }`; //permite visualizar el signo de la operacion
+  }
 
-    imprimirValores() {
-        this.displayValorActual.textContent = this.valorActual;
-        this.displayValorAnterior.textContent = `${this.valorAnterior} ${this.signos[this.tipoOperacion] || ''}`; //permite visualizar el signo de la operacion
-    }
+  /*Funcion que toma los valores del display y se los pasa a Calculadora*/
+  calcular() {
+    const valorAnterior = parseFloat(this.valorAnterior);
+    const valorActual = parseFloat(this.valorActual);
 
-    /*Funcion que toma los valores del display y se los pasa a Calculadora*/
-    calcular(){
-        const valorAnterior = parseFloat(this.valorAnterior);
-        const valorActual = parseFloat(this.valorActual);
-
-        if( isNaN(valorActual) || isNaN(valorAnterior)) return //salva error por si se intenta parsear un string vacio
-        this.valorActual = this.calculador[this.tipoOperacion](valorAnterior, valorActual);
-    }
+    if (isNaN(valorActual) || isNaN(valorAnterior)) return; //salva error por si se intenta parsear un string vacio
+    this.valorActual = this.calculador[this.tipoOperacion](
+      valorAnterior,
+      valorActual
+    );
+  }
 }
 
 const display = new Display(displayValorAnterior, displayValorActual);
 
-botonesNumeros.forEach(boton => {
-    boton.addEventListener('click', () => {
-        display.agregarNumero(boton.innerHTML);
-        botonSonido.play();
-    });
+botonesNumeros.forEach((boton) => {
+  boton.addEventListener("click", () => {
+    display.agregarNumero(boton.innerHTML);
+    botonSonido.play();
+  });
 });
 
-botonesOperadores.forEach(boton => {
-    boton.addEventListener('click', () => {
-        display.computar(boton.value);
-        botonSonido.play();
-    })
+botonesOperadores.forEach((boton) => {
+  boton.addEventListener("click", () => {
+    display.computar(boton.value);
+    botonSonido.play();
+  });
 });
-
