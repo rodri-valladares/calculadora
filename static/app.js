@@ -4,6 +4,40 @@ const botonesNumeros = document.querySelectorAll(".numero");
 const botonesOperadores = document.querySelectorAll(".operador");
 const botonSonido = document.getElementById("boton-sonido");
 
+class RegistroCalculos {
+  constructor(calculadora) {
+    this.calculadora = calculadora;
+  }
+
+  registrarOperacion(operacion) {
+    console.log(operacion);
+  }
+
+  sumar(num1, num2) {
+    const resultado = this.calculadora.sumar(num1, num2);
+    this.registrarOperacion(`${num1} + ${num2} = ${resultado}`);
+    return resultado;
+  }
+
+  restar(num1, num2) {
+    const resultado = this.calculadora.restar(num1, num2);
+    this.registrarOperacion(`${num1} - ${num2} = ${resultado}`);
+    return resultado;
+  }
+
+  dividir(num1, num2) {
+    const resultado = this.calculadora.dividir(num1, num2);
+    this.registrarOperacion(`${num1} / ${num2} = ${resultado}`);
+    return resultado;
+  }
+
+  multiplicar(num1, num2) {
+    const resultado = this.calculadora.multiplicar(num1, num2);
+    this.registrarOperacion(`${num1} * ${num2} = ${resultado}`);
+    return resultado;
+  }
+}
+
 class Calculadora {
   sumar(num1, num2) {
     return num1 + num2;
@@ -27,7 +61,7 @@ class Display {
   constructor(displayValorAnterior, displayValorActual) {
     this.displayValorActual = displayValorActual;
     this.displayValorAnterior = displayValorAnterior;
-    this.calculador = new Calculadora();
+    this.calculador = new RegistroCalculos(new Calculadora());
     this.valorActual = "";
     this.valorAnterior = "";
     this.tipoOperacion = undefined;
@@ -94,13 +128,22 @@ const display = new Display(displayValorAnterior, displayValorActual);
 botonesNumeros.forEach((boton) => {
   boton.addEventListener("click", () => {
     display.agregarNumero(boton.innerHTML);
-    botonSonido.play();
+    // botonSonido.play();
   });
 });
 
 botonesOperadores.forEach((boton) => {
   boton.addEventListener("click", () => {
     display.computar(boton.value);
-    botonSonido.play();
+    // botonSonido.play();
   });
 });
+
+// $.ajax({
+//   type: "POST",
+//   contentType: "application/json;charset=utf-8",
+//   url: "/your/flask/endpoint",
+//   traditional: "true",
+//   data: JSON.stringify({names}),
+//   dataType: "json"
+//   });
