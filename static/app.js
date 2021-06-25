@@ -10,7 +10,18 @@ class RegistroCalculos {
   }
 
   registrarOperacion(operacion) {
-    console.log(operacion);
+    const request = new XMLHttpRequest();
+    request.open("POST", window.location.href + "/calculos", true);
+    request.setRequestHeader("content-type", "application/json;charset=utf-8");
+    request.onreadystatechange = function () {
+      if (request.readyState == 4 && request.status == 200) {
+        console.log(request.responseText);
+      }
+    };
+    const datos = {
+      calculo: operacion,
+    };
+    request.send(JSON.stringify(datos));
   }
 
   sumar(num1, num2) {
