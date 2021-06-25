@@ -5,7 +5,7 @@ import os
 
 app = Flask(__name__)
 
-# db = redis.from_url(os.environ["REDISCLOUD_URL"])
+db = redis.from_url(os.environ["REDISCLOUD_URL"])
 
 
 @app.route("/")
@@ -14,7 +14,11 @@ def calculadora_home():
 
 @app.route("/calculos", methods=["POST"])
 def registrar_calculo():
+    db.rpush("registro", request.get_json()["calculo"])
     return request.get_json()["calculo"]
+
+#@app.route("/calculos/lista")
+#def lista_calculos():
 
 
 
