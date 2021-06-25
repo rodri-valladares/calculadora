@@ -12,6 +12,11 @@ app = Flask(__name__)
 def calculadora_home():
     return render_template("index.html")
 
+@app.route("/calculos", methods=["POST"])
+def registrar_calculo():
+    return request.get_json()["calculo"]
+
+
 
 # para logear las operaciones a redis y volver a la misma página
 # db.zadd("operaciones", {operacion})
