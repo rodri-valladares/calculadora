@@ -7,21 +7,30 @@ app = Flask(__name__)
 
 db = redis.from_url(os.environ["REDISCLOUD_URL"])
 
+def registrar_calculo(calculo):
+    db.rpush("registro", calculo)
+    return calculo
+
+def obtener_calculos():
+    calculos = db.lrange("registro", 0, -1)
+    for i,calculo in enumerate(calculos):
+        calculos[i]=calculos[i].decode("UTF-8")
+    return {"calculos":calculos}
+
 
 @app.route("/")
 def calculadora_home():
     return render_template("index.html")
 
-@app.route("/calculos", methods=["POST"])
-def registrar_calculo():
-    db.rpush("registro", request.get_json()["calculo"])
-    return request.get_json()["calculo"]
+@app.route("/calculos", methods=["POST","GET"])
+def calculos():
+    if request.method=="POST":
+        return registrar_calculo(request.get_json()["calculo"]) 
 
-#@app.route("/calculos/lista")
-#def lista_calculos():
+    elif request.method=="GET":
+        return obtener_calculos()
+
+    
 
 
 
-# para logear las operaciones a redis y volver a la misma página
-# db.zadd("operaciones", {operacion})
-# return redirect("/")
